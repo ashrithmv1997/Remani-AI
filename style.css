@@ -359,13 +359,8 @@ button:hover{
 
 }
 /* 🔊 Voice Button */
-.topControls{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.voiceBtn{
+/* 🔊 VOICE TOGGLE */
+.voiceToggle{
 
   width:42px;
   height:42px;
@@ -374,7 +369,7 @@ button:hover{
 
   border-radius:50%;
 
-  background:rgba(255,255,255,0.15);
+  background:rgba(255,255,255,0.2);
 
   color:white;
 
@@ -382,11 +377,15 @@ button:hover{
 
   cursor:pointer;
 
-  backdrop-filter:blur(10px);
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
 
   transition:0.2s;
 }
 
-.voiceBtn:hover{
+.voiceToggle:hover{
   transform:scale(1.08);
 }
