@@ -1,9 +1,9 @@
-const input = document.getElementById("msg");
+const input = document.getElementById("userInput");
 
 /* 🔥 ENTER KEY SUPPORT */
 input.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
-    send();
+    sendMessage();
   }
 });
 
