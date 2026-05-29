@@ -1,111 +1,155 @@
-const input = document.getElementById("userInput");
-
-/* 🔥 ENTER KEY SUPPORT */
-input.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
-    sendMessage();
-  }
-});
-
-async function sendMessage() {
-
-  const input = document.getElementById("userInput");
-
-  const text = input.value.trim();
-
-  if (!text) return;
-
-  addMessage(text, "user");
-
-  input.value = "";
-
-  setStatus("Thinking... 🤔");
-
-  try {
-
-    const res = await fetch("https://remaniai.ashrithmv.workers.dev", {
-      method: "POST",
-
-      headers: {
-        "Content-Type": "application/json"
-      },
-
-      body: JSON.stringify({
-        message: text
-      })
-
-    });
-
-    // DEBUG
-    console.log("Response status:", res.status);
-
-    const raw = await res.text();
-
-    console.log("RAW RESPONSE:", raw);
-
-    // convert manually
-    const data = JSON.parse(raw);
-
-    addMessage(data.reply || "No reply", "bot");
-
-  } catch (err) {
-
-    console.error(err);
-
-    addMessage("Connection error 😵", "bot");
-
-  }
-
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-function addMessage(text, type) {
-  const chat = document.getElementById("chatBox");
-  const div = document.createElement("div");
-  div.className = `msg ${type}`;
-  div.innerText = text;
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
+body {
+  background: #0f0f0f;
+  font-family: Arial, sans-serif;
+  color: white;
+
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-/* 🎭 Emotion System (Avatar Switching) */
-function updateEmotion(text) {
-  const t = text.toLowerCase();
+/* HEADER */
+header {
+  padding: 15px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
 
-  if (t.includes("angry")) {
-    setAvatar("remani-default.jpg");
-    setStatus("Angry mode 😡");
-  }
-  else if (t.includes("love") || t.includes("sweet")) {
-    setAvatar("remani-default.jpg");
-    setStatus("Soft mode 🥰");
-  }
-  else if (t.includes("haha") || t.includes("😂")) {
-    setAvatar("remani-default.jpg");
-    setStatus("Laughing 😂");
-  }
-  else if (t.includes("confused") || t.includes("sorry")) {
-    setAvatar("remani-default.jpg");
-    setStatus("Confused 😵");
-  }
-  else {
-    setAvatar("remani-default.jpg");
-    setStatus("Sassy mode 😏");
-  }
+  background: #151515;
+
+  border-bottom: 1px solid #222;
+
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-function setAvatar(img) {
-  document.getElementById("avatarImg").src = img;
+/* CHAT AREA */
+#chatBox {
+  flex: 1;
+
+  overflow-y: auto;
+
+  padding: 15px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+
+  scroll-behavior: smooth;
 }
 
-function setStatus(text) {
-  document.getElementById("status").innerText = text;
+/* MESSAGE */
+.message {
+  max-width: 80%;
+
+  padding: 12px 15px;
+
+  border-radius: 18px;
+
+  line-height: 1.4;
+
+  word-wrap: break-word;
+
+  font-size: 15px;
 }
 
-/* 🔊 Voice */
-function speak(text) {
-  const speech = new SpeechSynthesisUtterance(text);
-  speech.rate = 1;
-  speech.pitch = 1.2;
-  speech.lang = "en-IN";
-  window.speechSynthesis.speak(speech);
+/* USER */
+.user {
+  background: #007aff;
+  align-self: flex-end;
+
+  border-bottom-right-radius: 5px;
+}
+
+/* BOT */
+.bot {
+  background: #252525;
+  align-self: flex-start;
+
+  border-bottom-left-radius: 5px;
+}
+
+/* INPUT AREA */
+.inputArea {
+  display: flex;
+
+  gap: 10px;
+
+  padding: 12px;
+
+  background: #151515;
+
+  border-top: 1px solid #222;
+
+  position: sticky;
+  bottom: 0;
+}
+
+/* INPUT */
+#userInput {
+  flex: 1;
+
+  background: #252525;
+
+  border: none;
+
+  outline: none;
+
+  color: white;
+
+  padding: 14px;
+
+  border-radius: 14px;
+
+  font-size: 16px;
+}
+
+/* BUTTON */
+button {
+  background: #007aff;
+
+  border: none;
+
+  color: white;
+
+  padding: 14px 18px;
+
+  border-radius: 14px;
+
+  font-size: 16px;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+
+  header {
+    font-size: 20px;
+    padding: 14px;
+  }
+
+  .message {
+    font-size: 14px;
+    max-width: 90%;
+  }
+
+  #userInput {
+    font-size: 16px;
+  }
+
 }
