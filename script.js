@@ -23,7 +23,6 @@ setStatus("Thinking... 🤔");
 
 try {
 
-    const res = await fetch("https://remani-ai.ashrithmv.workers.dev", {
     const res = await fetch("https://remaniai.ashrithmv.workers.dev", {
 method: "POST",
 
