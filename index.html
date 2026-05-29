@@ -1,42 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <meta
+    name="theme-color"
+    content="#0b0f1a"
+  />
+
   <title>Remani AI 🤪</title>
-  <link rel="stylesheet" href="style.css"/>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  />
+
 </head>
 
 <body>
 
+  <!-- 🌈 Background -->
   <div class="bg"></div>
 
+  <!-- 🤖 Main App -->
   <div class="app">
 
-    <!-- 👩 COMIC LADY AVATAR -->
+    <!-- 👩 Avatar -->
     <div class="avatarSection">
-      <img id="avatarImg" src="remani-default.jpg" class="avatarImg" />
-      <div class="name">Remani AI</div>
-      <div class="status" id="status">Pucham Mode 😏</div>
+
+      <img
+        id="avatarImg"
+        src="remani-default.jpg"
+        class="avatarImg"
+      />
+
+      <div class="name">
+        Remani AI
+      </div>
+
+      <div
+        class="status"
+        id="status"
+      >
+        Online 😎
+      </div>
+
     </div>
 
-    <!-- HEADER -->
+    <!-- 🔥 Topbar -->
     <div class="topbar">
-      <h2>🤪Remani AI🤪</h2>
-      <p>**Lady Superstar**</p>
+
+      <div>
+
+        <h2>🤪 Remani AI</h2>
+
+        <p>Lady Superstar</p>
+
+      </div>
+
+      <div class="onlineDot"></div>
+
     </div>
 
-    <!-- CHAT -->
-    <div id="chatBox" class="chat"></div>
+    <!-- 💬 Chat -->
+    <div
+      id="chatBox"
+      class="chat"
+    ></div>
 
-    <!-- INPUT -->
+    <!-- ⌨️ Input -->
     <div class="inputBar">
-      <input id="userInput" placeholder="Talk to Remani...She is Hearing you" />
-      <button onclick="sendMessage()">Send 🚀</button>
+
+      <input
+        id="userInput"
+        type="text"
+        autocomplete="off"
+        placeholder="Talk to Remani..."
+      />
+
+      <button onclick="sendMessage()">
+        🚀
+      </button>
+
     </div>
 
   </div>
 
   <script src="script.js"></script>
+
 </body>
 </html>
