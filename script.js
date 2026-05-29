@@ -1,9 +1,9 @@
-const input = document.getElementById("msg");
+const input = document.getElementById("userInput");
 
 /* 🔥 ENTER KEY SUPPORT */
 input.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
-    send();
+    sendMessage()
   }
 });
 
@@ -18,7 +18,7 @@ async function sendMessage() {
   setStatus("Thinking... 🤔");
   setAvatar("remani-default.jpg");
 
-  const res = await fetch("https://remani-api.sweatysuitcase.co.in/chat", {
+  const res = await fetch("https://remaniai.ashrithmv.workers.dev", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message: text })
