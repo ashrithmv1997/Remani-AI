@@ -1,68 +1,84 @@
-const API_URL = "https://remaniai.sweatysuitcase.co.in"; // 👈 replace this
+const input = document.getElementById("msg");
 
-// Send message to AI
-async function sendMessage(message) {
-  try {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        message: message
-      })
-    });
+/* 🔥 ENTER KEY SUPPORT */
+input.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    send();
+  }
+});
 
-    // If server error
-    if (!res.ok) {
-      const errText = await res.text();
-      console.error("Server error:", errText);
-      return "Server error. Try again.";
-    }
+async function sendMessage() {
+  const input = document.getElementById("userInput");
+  const text = input.value.trim();
+  if (!text) return;
 
-    const data = await res.json();
-    return data.reply || "No reply received";
+  addMessage(text, "user");
+  input.value = "";
 
-  } catch (error) {
-    console.error("Fetch failed:", error);
-    return "Cannot connect to Remani AI";
+  setStatus("Thinking... 🤔");
+  setAvatar("remani-default.jpg");
+
+  const res = await fetch("https://remaniai.sweatysuitcase.co.in/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: text })
+  });
+
+  const data = await res.json();
+
+  addMessage(data.reply, "bot");
+  updateEmotion(data.reply);
+  speak(data.reply);
+}
+
+function addMessage(text, type) {
+  const chat = document.getElementById("chatBox");
+  const div = document.createElement("div");
+  div.className = `msg ${type}`;
+  div.innerText = text;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+/* 🎭 Emotion System (Avatar Switching) */
+function updateEmotion(text) {
+  const t = text.toLowerCase();
+
+  if (t.includes("angry")) {
+    setAvatar("remani-default.jpg");
+    setStatus("Angry mode 😡");
+  }
+  else if (t.includes("love") || t.includes("sweet")) {
+    setAvatar("remani-default.jpg");
+    setStatus("Soft mode 🥰");
+  }
+  else if (t.includes("haha") || t.includes("😂")) {
+    setAvatar("remani-default.jpg");
+    setStatus("Laughing 😂");
+  }
+  else if (t.includes("confused") || t.includes("sorry")) {
+    setAvatar("remani-default.jpg");
+    setStatus("Confused 😵");
+  }
+  else {
+    setAvatar("remani-default.jpg");
+    setStatus("Sassy mode 😏");
   }
 }
 
-
-// UI handling
-async function handleSend() {
-  const input = document.getElementById("userInput");
-  const chatBox = document.getElementById("chatBox");
-
-  const message = input.value.trim();
-  if (!message) return;
-
-  // show user message
-  chatBox.innerHTML += `<div class="user">You: ${message}</div>`;
-  input.value = "";
-
-  // show loading
-  chatBox.innerHTML += `<div class="bot">Remani: typing...</div>`;
-
-  // call AI
-  const reply = await sendMessage(message);
-
-  // replace last "typing..."
-  const messages = chatBox.getElementsByClassName("bot");
-  messages[messages.length - 1].innerHTML = `Remani: ${reply}`;
-
-  chatBox.scrollTop = chatBox.scrollHeight;
+function setAvatar(img) {
+  document.getElementById("avatarImg").src = img;
 }
 
+function setStatus(text) {
+  document.getElementById("status").innerText = text;
+}
 
-// Enter key support
-document.addEventListener("DOMContentLoaded", () => {
-  const input = document.getElementById("userInput");
-
-  input.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-      handleSend();
-    }
-  });
-});
+/* 🔊 Voice */
+function speak(text) {
+  const speech = new SpeechSynthesisUtterance(text);
+  speech.rate = 1;
+  speech.pitch = 1.2;
+  speech.lang = "en-IN";
+  window.speechSynthesis.speak(speech);
+}
