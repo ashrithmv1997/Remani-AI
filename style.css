@@ -1,144 +1,360 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Segoe UI",sans-serif;
 }
 
-body {
-  height: 100vh;
-  background: #0b0f1a;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+body{
+  min-height:100vh;
+  background:#0b0f1a;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  padding:20px;
+  position:relative;
 }
 
-/* background glow */
+/* 🌈 BACKGROUND */
 .bg::before,
-.bg::after {
-  content: "";
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  filter: blur(120px);
-  border-radius: 50%;
+.bg::after{
+  content:"";
+  position:absolute;
+  width:350px;
+  height:350px;
+  border-radius:50%;
+  filter:blur(140px);
+  z-index:-1;
 }
 
-.bg::before {
-  background: #ff4ecd;
-  top: 10%;
-  left: 10%;
+.bg::before{
+  background:#ff4ecd;
+  top:-80px;
+  left:-80px;
 }
 
-.bg::after {
-  background: #4cc9f0;
-  bottom: 10%;
-  right: 10%;
+.bg::after{
+  background:#4cc9f0;
+  bottom:-80px;
+  right:-80px;
 }
 
-/* app */
-.app {
-  width: 420px;
-  height: 720px;
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(20px);
-  border-radius: 25px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.2);
-  display: flex;
-  flex-direction: column;
+/* 🤖 APP */
+.app{
+
+  width:100%;
+  max-width:500px;
+  height:90vh;
+
+  background:rgba(255,255,255,0.08);
+
+  backdrop-filter:blur(20px);
+
+  border:1px solid rgba(255,255,255,0.12);
+
+  border-radius:30px;
+
+  overflow:hidden;
+
+  display:flex;
+  flex-direction:column;
+
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.5);
+
+  position:relative;
 }
 
-/* avatar */
-.avatarSection {
-  text-align: center;
-  padding: 15px;
+/* 👩 AVATAR */
+.avatarSection{
+  text-align:center;
+  padding:18px 15px 10px;
 }
 
-.avatarImg {
-  width: 110px;
-  height: 110px;
-  border-radius: 25px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  animation: float 3s infinite ease-in-out;
+.avatarImg{
+  width:110px;
+  height:110px;
+
+  object-fit:cover;
+
+  border-radius:28px;
+
+  border:3px solid rgba(255,255,255,0.15);
+
+  box-shadow:
+    0 10px 35px rgba(0,0,0,0.5);
+
+  animation:float 3s ease-in-out infinite;
 }
 
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-  100% { transform: translateY(0px); }
+@keyframes float{
+
+  0%{
+    transform:translateY(0px);
+  }
+
+  50%{
+    transform:translateY(-8px);
+  }
+
+  100%{
+    transform:translateY(0px);
+  }
+
 }
 
-.name {
-  color: white;
-  font-weight: bold;
-  margin-top: 5px;
+.name{
+  color:white;
+  font-size:22px;
+  font-weight:700;
+  margin-top:10px;
 }
 
-.status {
-  font-size: 12px;
-  color: rgba(255,255,255,0.8);
+.status{
+  margin-top:5px;
+  font-size:13px;
+  color:rgba(255,255,255,0.7);
 }
 
-/* topbar */
-.topbar {
-  text-align: center;
-  padding: 10px;
-  color: white;
-  background: linear-gradient(90deg, #ff4ecd, #4cc9f0);
+/* 🔥 TOPBAR */
+.topbar{
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:14px 20px;
+
+  color:white;
+
+  background:
+    linear-gradient(
+      90deg,
+      #ff4ecd,
+      #4cc9f0
+    );
 }
 
-/* chat */
-.chat {
-  flex: 1;
-  padding: 10px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.topbar h2{
+  font-size:22px;
 }
 
-.msg {
-  padding: 10px 14px;
-  border-radius: 14px;
-  max-width: 75%;
-  font-size: 14px;
+.topbar p{
+  font-size:13px;
+  opacity:0.9;
 }
 
-.user {
-  align-self: flex-end;
-  background: #4cc9f0;
-  color: black;
+.onlineDot{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:#00ff88;
+
+  box-shadow:
+    0 0 12px #00ff88;
 }
 
-.bot {
-  align-self: flex-start;
-  background: #ff4ecd;
-  color: white;
+/* 💬 CHAT */
+.chat{
+
+  flex:1;
+
+  overflow-y:auto;
+
+  padding:18px;
+
+  display:flex;
+  flex-direction:column;
+
+  gap:14px;
+
+  scroll-behavior:smooth;
 }
 
-/* input */
-.inputBar {
-  display: flex;
-  padding: 10px;
-  background: rgba(0,0,0,0.4);
+.chat::-webkit-scrollbar{
+  width:4px;
 }
 
-input {
-  flex: 1;
-  padding: 12px;
-  border-radius: 12px;
-  border: none;
-  outline: none;
+.chat::-webkit-scrollbar-thumb{
+  background:rgba(255,255,255,0.2);
+  border-radius:10px;
 }
 
-button {
-  margin-left: 8px;
-  padding: 12px;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(90deg,#ff4ecd,#4cc9f0);
-  color: white;
-  cursor: pointer;
+/* 💬 MESSAGES */
+.msg{
+
+  padding:14px 16px;
+
+  border-radius:18px;
+
+  max-width:82%;
+
+  line-height:1.5;
+
+  font-size:15px;
+
+  animation:fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn{
+
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+}
+
+.user{
+
+  align-self:flex-end;
+
+  background:
+    linear-gradient(
+      135deg,
+      #4cc9f0,
+      #7ce7ff
+    );
+
+  color:black;
+
+  border-bottom-right-radius:6px;
+}
+
+.bot{
+
+  align-self:flex-start;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff4ecd,
+      #ff7ce5
+    );
+
+  color:white;
+
+  border-bottom-left-radius:6px;
+}
+
+/* ⌨️ INPUT */
+.inputBar{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  padding:14px;
+
+  background:rgba(0,0,0,0.35);
+
+  backdrop-filter:blur(10px);
+
+  border-top:
+    1px solid rgba(255,255,255,0.08);
+}
+
+input{
+
+  flex:1;
+
+  background:rgba(255,255,255,0.08);
+
+  border:none;
+
+  outline:none;
+
+  color:white;
+
+  padding:15px 18px;
+
+  border-radius:16px;
+
+  font-size:15px;
+}
+
+input::placeholder{
+  color:rgba(255,255,255,0.5);
+}
+
+button{
+
+  border:none;
+
+  padding:14px 18px;
+
+  border-radius:16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff4ecd,
+      #4cc9f0
+    );
+
+  color:white;
+
+  font-size:16px;
+
+  cursor:pointer;
+
+  transition:0.2s;
+}
+
+button:hover{
+  transform:scale(1.05);
+}
+
+/* 📱 MOBILE */
+@media(max-width:600px){
+
+  body{
+    padding:0;
+  }
+
+  .app{
+    width:100%;
+    height:100vh;
+    border-radius:0;
+  }
+
+  .avatarImg{
+    width:90px;
+    height:90px;
+  }
+
+  .name{
+    font-size:20px;
+  }
+
+  .topbar h2{
+    font-size:18px;
+  }
+
+  .msg{
+    font-size:14px;
+    max-width:88%;
+  }
+
+  input{
+    font-size:16px;
+  }
+
+}
+
+/* 💻 LARGE SCREEN */
+@media(min-width:1200px){
+
+  .app{
+    max-width:600px;
+  }
+
 }
