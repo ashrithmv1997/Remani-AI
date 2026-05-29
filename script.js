@@ -24,7 +24,7 @@ async function sendMessage() {
 
   try {
 
-    const res = await fetch("https://remani-api.sweatysuitcase.co.in", {
+    const res = await fetch("https://remaniai.ashrithmv.workers.dev", {
       method: "POST",
 
       headers: {
