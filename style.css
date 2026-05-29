@@ -1,0 +1,144 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  height: 100vh;
+  background: #0b0f1a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* background glow */
+.bg::before,
+.bg::after {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  filter: blur(120px);
+  border-radius: 50%;
+}
+
+.bg::before {
+  background: #ff4ecd;
+  top: 10%;
+  left: 10%;
+}
+
+.bg::after {
+  background: #4cc9f0;
+  bottom: 10%;
+  right: 10%;
+}
+
+/* app */
+.app {
+  width: 420px;
+  height: 720px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+/* avatar */
+.avatarSection {
+  text-align: center;
+  padding: 15px;
+}
+
+.avatarImg {
+  width: 110px;
+  height: 110px;
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  animation: float 3s infinite ease-in-out;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+.name {
+  color: white;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.status {
+  font-size: 12px;
+  color: rgba(255,255,255,0.8);
+}
+
+/* topbar */
+.topbar {
+  text-align: center;
+  padding: 10px;
+  color: white;
+  background: linear-gradient(90deg, #ff4ecd, #4cc9f0);
+}
+
+/* chat */
+.chat {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.msg {
+  padding: 10px 14px;
+  border-radius: 14px;
+  max-width: 75%;
+  font-size: 14px;
+}
+
+.user {
+  align-self: flex-end;
+  background: #4cc9f0;
+  color: black;
+}
+
+.bot {
+  align-self: flex-start;
+  background: #ff4ecd;
+  color: white;
+}
+
+/* input */
+.inputBar {
+  display: flex;
+  padding: 10px;
+  background: rgba(0,0,0,0.4);
+}
+
+input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+}
+
+button {
+  margin-left: 8px;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(90deg,#ff4ecd,#4cc9f0);
+  color: white;
+  cursor: pointer;
+}
