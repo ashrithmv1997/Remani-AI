@@ -1,60 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Remani AI</title>
-
-  <style>
-    body {
-      background: #111;
-      color: white;
-      font-family: Arial;
-      padding: 20px;
-    }
-
-    #chatBox {
-      height: 400px;
-      overflow-y: auto;
-      border: 1px solid #444;
-      padding: 10px;
-      margin-bottom: 10px;
-    }
-
-    .user {
-      color: cyan;
-      margin: 10px 0;
-    }
-
-    .bot {
-      color: lime;
-      margin: 10px 0;
-    }
-
-    input {
-      width: 75%;
-      padding: 10px;
-    }
-
-    button {
-      padding: 10px;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Remani AI 🤪</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 
 <body>
 
-  <h1>Remani AI</h1>
+  <div class="bg"></div>
 
-  <div id="chatBox"></div>
+  <div class="app">
 
-  <input type="text" id="userInput" placeholder="Type message..." />
+    <!-- 👩 COMIC LADY AVATAR -->
+    <div class="avatarSection">
+      <img id="avatarImg" src="remani-default.jpg" class="avatarImg" />
+      <div class="name">Remani AI</div>
+      <div class="status" id="status">Pucham Mode 😏</div>
+    </div>
 
-  <button onclick="handleSend()">
-    Send
-  </button>
+    <!-- HEADER -->
+    <div class="topbar">
+      <h2>🤪Remani AI🤪</h2>
+      <p>**Lady Superstar**</p>
+    </div>
+
+    <!-- CHAT -->
+    <div id="chatBox" class="chat"></div>
+
+    <!-- INPUT -->
+    <div class="inputBar">
+      <input id="userInput" placeholder="Talk to Remani...She is Hearing you" />
+      <button onclick="sendMessage()">Send 🚀</button>
+    </div>
+
+  </div>
 
   <script src="script.js"></script>
-
 </body>
 </html>
