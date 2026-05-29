@@ -1,3 +1,4 @@
+let voiceEnabled = true;
 const input =
   document.getElementById("userInput");
 
@@ -217,10 +218,10 @@ function setStatus(text) {
 /* 🔊 VOICE */
 function speak(text) {
 
+  if (!voiceEnabled) return;
+
   const speech =
-    new SpeechSynthesisUtterance(
-      text
-    );
+    new SpeechSynthesisUtterance(text);
 
   speech.rate = 1;
 
@@ -228,8 +229,22 @@ function speak(text) {
 
   speech.lang = "en-IN";
 
-  window
-    .speechSynthesis
-    .speak(speech);
+  window.speechSynthesis.speak(speech);
+
+}
+function speak(text) {
+
+  if (!voiceEnabled) return;
+
+  const speech =
+    new SpeechSynthesisUtterance(text);
+
+  speech.rate = 1;
+
+  speech.pitch = 1.2;
+
+  speech.lang = "en-IN";
+
+  window.speechSynthesis.speak(speech);
 
 }
