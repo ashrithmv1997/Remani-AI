@@ -145,14 +145,13 @@ body{
   opacity:0.9;
 }
 
-.onlineDot{
-  width:12px;
-  height:12px;
-  border-radius:50%;
-  background:#00ff88;
-
-  box-shadow:
-    0 0 12px #00ff88;
+<button
+  class="voiceToggle"
+  id="voiceBtn"
+  onclick="toggleVoice()"
+>
+  🔊
+</button>
 }
 
 /* 💬 CHAT */
