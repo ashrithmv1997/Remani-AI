@@ -1,3 +1,4 @@
+alert("LATEST SCRIPT LOADED");
 const input = document.getElementById("userInput");
 
 /* 🔥 ENTER KEY SUPPORT */
