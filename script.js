@@ -232,19 +232,23 @@ function speak(text) {
   window.speechSynthesis.speak(speech);
 
 }
-function speak(text) {
+function toggleVoice() {
 
-  if (!voiceEnabled) return;
+  voiceEnabled = !voiceEnabled;
 
-  const speech =
-    new SpeechSynthesisUtterance(text);
+  const btn =
+    document.getElementById("voiceBtn");
 
-  speech.rate = 1;
+  if (voiceEnabled) {
 
-  speech.pitch = 1.2;
+    btn.innerText = "🔊";
 
-  speech.lang = "en-IN";
+  } else {
 
-  window.speechSynthesis.speak(speech);
+    btn.innerText = "🔇";
+
+    speechSynthesis.cancel();
+
+  }
 
 }
