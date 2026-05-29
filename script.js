@@ -18,7 +18,8 @@ async function sendMessage() {
   setStatus("Thinking... 🤔");
   setAvatar("remani-default.jpg");
 
-  const res = await fetch("https://remaniai.sweatysuitcase.co.in/chat", {
+  const res = await fetch("https://
+remani-ai.ashrithmv.workers.dev/chat", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message: text })
