@@ -8,27 +8,54 @@ input.addEventListener("keydown", function (event) {
 });
 
 async function sendMessage() {
+
   const input = document.getElementById("userInput");
+
   const text = input.value.trim();
+
   if (!text) return;
 
   addMessage(text, "user");
+
   input.value = "";
 
   setStatus("Thinking... 🤔");
-  setAvatar("remani-default.jpg");
 
-  const res = await fetch("https://remani-api.sweatysuitcase.co.in", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message: text })
-  });
+  try {
 
-  const data = await res.json();
+    const res = await fetch("https://remani-api.sweatysuitcase.co.in", {
+      method: "POST",
 
-  addMessage(data.reply, "bot");
-  updateEmotion(data.reply);
-  speak(data.reply);
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+        message: text
+      })
+
+    });
+
+    // DEBUG
+    console.log("Response status:", res.status);
+
+    const raw = await res.text();
+
+    console.log("RAW RESPONSE:", raw);
+
+    // convert manually
+    const data = JSON.parse(raw);
+
+    addMessage(data.reply || "No reply", "bot");
+
+  } catch (err) {
+
+    console.error(err);
+
+    addMessage("Connection error 😵", "bot");
+
+  }
+
 }
 
 function addMessage(text, type) {
