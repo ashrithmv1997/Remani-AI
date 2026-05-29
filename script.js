@@ -1,4 +1,4 @@
-const API_URL = "https://remaniai.ashrithmv.workers.dev"; // 👈 replace this
+const API_URL = "https://remaniai.sweatysuitcase.co.in"; // 👈 replace this
 
 // Send message to AI
 async function sendMessage(message) {
