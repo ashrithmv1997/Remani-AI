@@ -1,17 +1,26 @@
 let history = JSON.parse(localStorage.getItem("remaniHistory")) || [];
 
+/* =========================
+   SOUND STATE
+========================= */
 let soundEnabled = true;
 
 /* =========================
-   SOUND TOGGLE
+   INIT TOGGLE
 ========================= */
 document.addEventListener("DOMContentLoaded", () => {
   const toggle = document.getElementById("soundToggle");
+
   if (toggle) {
     soundEnabled = toggle.checked;
 
     toggle.addEventListener("change", (e) => {
       soundEnabled = e.target.checked;
+
+      // 🔥 INSTANT STOP SOUND
+      if (!soundEnabled) {
+        window.speechSynthesis.cancel();
+      }
     });
   }
 });
@@ -19,21 +28,20 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =========================
    ENTER KEY SUPPORT
 ========================= */
-const inputBox = document.getElementById("userInput");
-
-inputBox.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
+document.getElementById("userInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
     sendMessage();
   }
 });
 
 /* =========================
-   MANGISH NORMALIZER
+   MANGISH / SLANG NORMALIZER
 ========================= */
 function normalizeText(text) {
   return text
     .replace(/machane|macha|da|di|bro|dude|sahoo/gi, "")
     .replace(/entha|enthaa|kya|what|എന്താ/gi, "")
+    .replace(/\s+/g, " ")
     .trim();
 }
 
@@ -42,8 +50,8 @@ function normalizeText(text) {
 ========================= */
 async function sendMessage() {
   const input = document.getElementById("userInput");
-  let text = input.value.trim();
 
+  let text = input.value.trim();
   if (!text) return;
 
   text = normalizeText(text);
@@ -81,7 +89,11 @@ async function sendMessage() {
       content: reply
     });
 
-    localStorage.setItem("remaniHistory", JSON.stringify(history.slice(-20)));
+    // keep last 20 messages only
+    localStorage.setItem(
+      "remaniHistory",
+      JSON.stringify(history.slice(-20))
+    );
 
     updateEmotion(reply);
     speak(reply);
@@ -90,6 +102,7 @@ async function sendMessage() {
 
   } catch (err) {
     console.error(err);
+
     addMessage("Connection error 😵", "bot");
     setStatus("Offline ❌");
   }
@@ -110,16 +123,21 @@ function addMessage(text, type) {
 }
 
 /* =========================
-   EMOTION ENGINE (simple)
+   STATUS + EMOTION
 ========================= */
+function setStatus(text) {
+  const el = document.getElementById("status");
+  if (el) el.innerText = text;
+}
+
 function updateEmotion(text) {
   const t = text.toLowerCase();
 
-  if (t.includes("love") || t.includes("cute")) {
+  if (t.includes("love")) {
     setStatus("Soft 🥰");
   } else if (t.includes("haha") || t.includes("lol")) {
     setStatus("Laughing 😂");
-  } else if (t.includes("angry") || t.includes("bad")) {
+  } else if (t.includes("angry")) {
     setStatus("Annoyed 😤");
   } else {
     setStatus("Sassy 😏");
@@ -127,26 +145,19 @@ function updateEmotion(text) {
 }
 
 /* =========================
-   STATUS UPDATE
-========================= */
-function setStatus(text) {
-  const el = document.getElementById("status");
-  if (el) el.innerText = text;
-}
-
-/* =========================
-   AVATAR CHANGE (optional use)
+   AVATAR (optional)
 ========================= */
 function setAvatar(img) {
   document.getElementById("avatarImg").src = img;
 }
 
 /* =========================
-   VOICE OUTPUT (TOGGLE SAFE)
+   SAFE SPEECH ENGINE (FIXED)
 ========================= */
 function speak(text) {
   if (!soundEnabled) return;
 
+  // stop previous speech instantly
   window.speechSynthesis.cancel();
 
   const speech = new SpeechSynthesisUtterance(text);
@@ -156,16 +167,9 @@ function speak(text) {
   speech.pitch = 1.3;
   speech.volume = 1;
 
-  const voices = speechSynthesis.getVoices();
+  speech.onend = () => {
+    console.log("Speech finished");
+  };
 
-  const femaleVoice =
-    voices.find(v => v.name.includes("Female")) ||
-    voices.find(v => v.name.includes("Google")) ||
-    voices.find(v => v.lang.includes("en"));
-
-  if (femaleVoice) {
-    speech.voice = femaleVoice;
-  }
-
-  speechSynthesis.speak(speech);
+  window.speechSynthesis.speak(speech);
 }
