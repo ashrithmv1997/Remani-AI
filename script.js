@@ -79,8 +79,6 @@ if(!introLaughPlayed){
     return;
 
   }
-
-}
 }
   text = cleanInput(text);
 
