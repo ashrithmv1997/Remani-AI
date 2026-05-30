@@ -211,21 +211,7 @@ window.addEventListener("load", () => {
   }, 1000);
 
   setTimeout(() => {
-
-    const laugh =
-      document.getElementById("introLaugh");
-
-    if (laugh) {
-
-      laugh.volume = 0.5;
-
-      laugh.play().catch(() => {});
-    }
-
-  }, 2000);
-
-  setTimeout(() => {
     setStatus("💖 Ready to chat");
-  }, 3500);
+  }, 5000);
 
 });
