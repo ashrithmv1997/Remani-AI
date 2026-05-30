@@ -211,3 +211,185 @@ button {
   color: white;
   cursor: pointer;
 }
+/* =========================================
+   REMANI INTRO
+========================================= */
+
+#introScreen{
+
+  position:fixed;
+  inset:0;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+
+  background:#0b0f1a;
+
+  z-index:99999;
+
+  animation:introFadeOut 1s forwards;
+  animation-delay:4s;
+}
+
+.introGlow{
+
+  position:absolute;
+
+  width:350px;
+  height:350px;
+
+  border-radius:50%;
+
+  background:
+  radial-gradient(
+    circle,
+    rgba(255,78,205,0.5),
+    rgba(76,201,240,0.3),
+    transparent
+  );
+
+  filter:blur(40px);
+
+  animation:pulseGlow 2s infinite;
+}
+
+#introAvatar{
+
+  width:260px;
+  height:260px;
+
+  border-radius:35px;
+
+  object-fit:cover;
+
+  box-shadow:
+    0 0 30px rgba(255,78,205,0.7),
+    0 0 60px rgba(76,201,240,0.5);
+
+  animation:introZoomOut 3.5s ease forwards;
+}
+
+#introTitle{
+
+  color:white;
+
+  margin-top:25px;
+
+  font-size:42px;
+
+  font-weight:700;
+
+  opacity:0;
+
+  animation:titleFade 1s forwards;
+  animation-delay:0.7s;
+}
+
+#introSubtitle{
+
+  color:rgba(255,255,255,0.8);
+
+  margin-top:10px;
+
+  font-size:18px;
+
+  opacity:0;
+
+  animation:titleFade 1s forwards;
+  animation-delay:1.2s;
+}
+
+/* APP APPEAR */
+
+.app{
+
+  opacity:0;
+
+  animation:appReveal 1s forwards;
+  animation-delay:4s;
+}
+
+/* ANIMATIONS */
+
+@keyframes introZoomOut{
+
+  0%{
+
+    transform:scale(3);
+
+    opacity:0;
+  }
+
+  30%{
+
+    opacity:1;
+  }
+
+  100%{
+
+    transform:scale(1);
+
+    opacity:1;
+  }
+}
+
+@keyframes titleFade{
+
+  from{
+
+    opacity:0;
+
+    transform:translateY(20px);
+  }
+
+  to{
+
+    opacity:1;
+
+    transform:translateY(0);
+  }
+}
+
+@keyframes pulseGlow{
+
+  0%{
+    transform:scale(1);
+  }
+
+  50%{
+    transform:scale(1.08);
+  }
+
+  100%{
+    transform:scale(1);
+  }
+}
+
+@keyframes introFadeOut{
+
+  to{
+
+    opacity:0;
+
+    visibility:hidden;
+  }
+}
+
+@keyframes appReveal{
+
+  from{
+
+    opacity:0;
+
+    transform:translateY(20px);
+  }
+
+  to{
+
+    opacity:1;
+
+    transform:translateY(0);
+  }
+}
