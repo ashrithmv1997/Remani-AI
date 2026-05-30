@@ -6,7 +6,7 @@ let history = JSON.parse(localStorage.getItem("remaniHistory")) || [];
 let soundEnabled = true;
 
 /* =========================
-   INIT TOGGLE
+   INIT
 ========================= */
 document.addEventListener("DOMContentLoaded", () => {
   const toggle = document.getElementById("soundToggle");
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     toggle.addEventListener("change", (e) => {
       soundEnabled = e.target.checked;
 
-      // 🔥 INSTANT STOP SOUND
+      // 🔥 instant stop voice
       if (!soundEnabled) {
         window.speechSynthesis.cancel();
       }
@@ -29,13 +29,11 @@ document.addEventListener("DOMContentLoaded", () => {
    ENTER KEY SUPPORT
 ========================= */
 document.getElementById("userInput").addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    sendMessage();
-  }
+  if (e.key === "Enter") sendMessage();
 });
 
 /* =========================
-   MANGISH / SLANG NORMALIZER
+   TEXT NORMALIZER (MANGISH FIX)
 ========================= */
 function normalizeText(text) {
   return text
@@ -46,7 +44,7 @@ function normalizeText(text) {
 }
 
 /* =========================
-   MAIN SEND FUNCTION
+   MAIN MESSAGE FUNCTION
 ========================= */
 async function sendMessage() {
   const input = document.getElementById("userInput");
@@ -89,7 +87,7 @@ async function sendMessage() {
       content: reply
     });
 
-    // keep last 20 messages only
+    // keep memory small
     localStorage.setItem(
       "remaniHistory",
       JSON.stringify(history.slice(-20))
@@ -102,7 +100,6 @@ async function sendMessage() {
 
   } catch (err) {
     console.error(err);
-
     addMessage("Connection error 😵", "bot");
     setStatus("Offline ❌");
   }
@@ -145,26 +142,7 @@ function updateEmotion(text) {
 }
 
 /* =========================
-   AVATAR (optional)
-========================= */
-function setAvatar(img) {
-  document.getElementById("avatarImg").src = img;
-}
-
-/* =========================
-   SAFE SPEECH ENGINE (FIXED)
-========================= */
-let soundEnabled = true;
-
-/* =========================
-   FORCE VOICE LOAD
-========================= */
-window.speechSynthesis.onvoiceschanged = () => {
-  window.speechSynthesis.getVoices();
-};
-
-/* =========================
-   FIXED SPEAK FUNCTION (FEMALE PRIORITY)
+   VOICE SYSTEM (FIXED)
 ========================= */
 function speak(text) {
   if (!soundEnabled) return;
@@ -175,33 +153,28 @@ function speak(text) {
 
   speech.lang = "en-IN";
   speech.rate = 1;
-  speech.pitch = 1.5;
+  speech.pitch = 1.4;
   speech.volume = 1;
 
   const voices = window.speechSynthesis.getVoices();
 
-  // Strong female voice selection
   const femaleVoice =
     voices.find(v => v.name.toLowerCase().includes("female")) ||
     voices.find(v => v.name.toLowerCase().includes("zira")) ||
     voices.find(v => v.name.toLowerCase().includes("samantha")) ||
-    voices.find(v => v.lang === "en-IN") ||
+    voices.find(v => v.lang.includes("en")) ||
     voices[0];
 
   if (femaleVoice) {
     speech.voice = femaleVoice;
   }
 
-  speechSynthesis.speak(speech);
+  window.speechSynthesis.speak(speech);
 }
 
 /* =========================
-   FIX TOGGLE (IMPORTANT)
+   FORCE VOICE LOAD FIX
 ========================= */
-document.getElementById("soundToggle").addEventListener("change", (e) => {
-  soundEnabled = e.target.checked;
-
-  if (!soundEnabled) {
-    window.speechSynthesis.cancel(); // instant stop
-  }
-});
+window.speechSynthesis.onvoiceschanged = () => {
+  window.speechSynthesis.getVoices();
+};
