@@ -9,34 +9,43 @@
 
 <body>
 
-  <div class="bg"></div>
+<div class="bg"></div>
 
-  <div class="app">
+<div class="app">
 
-    <!-- 👩 COMIC LADY AVATAR -->
-    <div class="avatarSection">
-      <img id="avatarImg" src="remani-default.jpg" class="avatarImg" />
-      <div class="name">Remani AI</div>
-      <div class="status" id="status">Pucham Mode 😏</div>
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <h2>🤪 Remani AI 🤪</h2>
+    <p>Lady Superstar</p>
+
+    <!-- SOUND TOGGLE -->
+    <div class="toggleContainer">
+      <label class="switch">
+        <input type="checkbox" id="soundToggle" checked>
+        <span class="slider"></span>
+      </label>
+      <span class="toggleText">🔊</span>
     </div>
-
-    <!-- HEADER -->
-    <div class="topbar">
-      <h2>🤪Remani AI🤪</h2>
-      <p>**Lady Superstar**</p>
-    </div>
-
-    <!-- CHAT -->
-    <div id="chatBox" class="chat"></div>
-
-    <!-- INPUT -->
-    <div class="inputBar">
-      <input id="userInput" placeholder="Talk to Remani...She is Hearing you" />
-      <button onclick="sendMessage()">Send 🚀</button>
-    </div>
-
   </div>
 
-  <script src="script.js"></script>
+  <!-- AVATAR -->
+  <div class="avatarSection">
+    <img id="avatarImg" src="remani-default.jpg" class="avatarImg" />
+    <div class="name">Remani AI</div>
+    <div class="status" id="status">Pucham Mode 😏</div>
+  </div>
+
+  <!-- CHAT -->
+  <div id="chatBox" class="chat"></div>
+
+  <!-- INPUT -->
+  <div class="inputBar">
+    <input id="userInput" placeholder="Talk to Remani..." />
+    <button onclick="sendMessage()">Send 🚀</button>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
