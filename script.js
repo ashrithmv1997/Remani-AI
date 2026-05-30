@@ -55,6 +55,8 @@ async function sendMessage() {
   if (!text || !text.trim()) return;
 if(!introLaughPlayed){
 
+  introLaughPlayed = true;
+
   const laugh =
   document.getElementById("introLaugh");
 
@@ -64,22 +66,21 @@ if(!introLaughPlayed){
 
     laugh.volume = 0.5;
 
-    await new Promise((resolve) => {
+    laugh.play().catch(() => {});
 
-      laugh.onended = resolve;
+    setTimeout(() => {
 
-      laugh.play().catch(() => {
-        resolve();
-      });
+      continueSend(text);
 
-    });
+    }, 1500);
+
+    input.value = "";
+
+    return;
 
   }
 
-  introLaughPlayed = true;
-
 }
-
 }
   text = cleanInput(text);
 
@@ -245,3 +246,73 @@ window.addEventListener("load", () => {
   }, 1200);
 
 });
+async function continueSend(text){
+
+  addMessage(text,"user");
+
+  history.push({
+    role:"user",
+    content:text
+  });
+
+  setStatus("Thinking... 🤔");
+
+  try{
+
+    const res =
+    await fetch(
+      "https://remaniai.ashrithmv.workers.dev",
+      {
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          message:text,
+          history:history
+        })
+      }
+    );
+
+    const data =
+    await res.json();
+
+    const reply =
+    data.reply || "No response";
+
+    addMessage(reply,"bot");
+
+    history.push({
+      role:"assistant",
+      content:reply
+    });
+
+    localStorage.setItem(
+      "remaniHistory",
+      JSON.stringify(
+        history.slice(-20)
+      )
+    );
+
+    updateEmotion(reply);
+
+    speak(reply);
+
+    setStatus("Online 😎");
+
+  }
+
+  catch(err){
+
+    console.error(err);
+
+    addMessage(
+      "Connection error 😵",
+      "bot"
+    );
+
+    setStatus("Offline ❌");
+
+  }
+
+}
