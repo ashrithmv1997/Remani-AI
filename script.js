@@ -1,84 +1,217 @@
-const input = document.getElementById("userInput");
+let history =
+JSON.parse(
+  localStorage.getItem("remaniHistory")
+) || [];
 
-/* 🔥 ENTER KEY SUPPORT */
-input.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
-    sendMessage()
+const input =
+document.getElementById("userInput");
+
+input.addEventListener(
+  "keydown",
+  function(event){
+
+    if(event.key==="Enter"){
+      sendMessage();
+    }
+
   }
-});
+);
 
-async function sendMessage() {
-  const input = document.getElementById("userInput");
-  const text = input.value.trim();
-  if (!text) return;
+async function sendMessage(){
 
-  addMessage(text, "user");
-  input.value = "";
+  const input =
+  document.getElementById("userInput");
 
-  setStatus("Thinking... 🤔");
-  setAvatar("remani-default.jpg");
+  const text =
+  input.value.trim();
 
-  const res = await fetch("https://remaniai.ashrithmv.workers.dev", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message: text })
+  if(!text) return;
+
+  addMessage(text,"user");
+
+  history.push({
+    role:"user",
+    content:text
   });
 
-  const data = await res.json();
+  input.value="";
 
-  addMessage(data.reply, "bot");
-  updateEmotion(data.reply);
-  speak(data.reply);
+  setStatus("Thinking... 🤔");
+
+  try{
+
+    const res =
+    await fetch(
+      "https://remaniai.ashrithmv.workers.dev",
+      {
+        method:"POST",
+
+        headers:{
+          "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+          message:text,
+          history:history
+        })
+      }
+    );
+
+    const data =
+    await res.json();
+
+    const reply =
+    data.reply ||
+    "No response";
+
+    addMessage(reply,"bot");
+
+    history.push({
+      role:"assistant",
+      content:reply
+    });
+
+    localStorage.setItem(
+      "remaniHistory",
+      JSON.stringify(
+        history.slice(-20)
+      )
+    );
+
+    updateEmotion(reply);
+
+    speak(reply);
+
+    setStatus("Online 😎");
+
+  }
+
+  catch(err){
+
+    console.error(err);
+
+    addMessage(
+      "Connection error 😵",
+      "bot"
+    );
+
+    setStatus("Offline ❌");
+
+  }
+
 }
 
-function addMessage(text, type) {
-  const chat = document.getElementById("chatBox");
-  const div = document.createElement("div");
-  div.className = `msg ${type}`;
-  div.innerText = text;
+function addMessage(text,type){
+
+  const chat =
+  document.getElementById("chatBox");
+
+  const div =
+  document.createElement("div");
+
+  div.className =
+  `msg ${type}`;
+
+  div.innerText=text;
+
   chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
+
+  chat.scrollTop=
+  chat.scrollHeight;
+
 }
 
-/* 🎭 Emotion System (Avatar Switching) */
-function updateEmotion(text) {
-  const t = text.toLowerCase();
+function updateEmotion(text){
 
-  if (t.includes("angry")) {
-    setAvatar("remani-default.jpg");
-    setStatus("Angry mode 😡");
+  const t =
+  text.toLowerCase();
+
+  if(
+    t.includes("love")
+  ){
+    setStatus("Soft 🥰");
   }
-  else if (t.includes("love") || t.includes("sweet")) {
-    setAvatar("remani-default.jpg");
-    setStatus("Soft mode 🥰");
-  }
-  else if (t.includes("haha") || t.includes("😂")) {
-    setAvatar("remani-default.jpg");
+
+  else if(
+    t.includes("haha")
+  ){
     setStatus("Laughing 😂");
   }
-  else if (t.includes("confused") || t.includes("sorry")) {
-    setAvatar("remani-default.jpg");
-    setStatus("Confused 😵");
+
+  else{
+    setStatus("Sassy 😏");
   }
-  else {
-    setAvatar("remani-default.jpg");
-    setStatus("Sassy mode 😏");
+
+}
+
+function setAvatar(img){
+
+  document
+  .getElementById("avatarImg")
+  .src = img;
+
+}
+
+function setStatus(text){
+
+  document
+  .getElementById("status")
+  .innerText = text;
+
+}
+
+function speak(text){
+
+  const speech =
+  new SpeechSynthesisUtterance(
+    text
+  );
+
+  speech.lang="en-IN";
+
+  speech.rate=1;
+
+  speech.pitch=1.5;
+
+  const voices =
+  speechSynthesis.getVoices();
+
+  const femaleVoice =
+
+    voices.find(
+      v =>
+      v.name.includes(
+        "Samantha"
+      )
+    )
+
+    ||
+
+    voices.find(
+      v =>
+      v.name
+      .toLowerCase()
+      .includes(
+        "female"
+      )
+    )
+
+    ||
+
+    voices.find(
+      v =>
+      v.lang.includes(
+        "en"
+      )
+    );
+
+  if(femaleVoice){
+    speech.voice =
+    femaleVoice;
   }
-}
 
-function setAvatar(img) {
-  document.getElementById("avatarImg").src = img;
-}
+  speechSynthesis.speak(
+    speech
+  );
 
-function setStatus(text) {
-  document.getElementById("status").innerText = text;
-}
-
-/* 🔊 Voice */
-function speak(text) {
-  const speech = new SpeechSynthesisUtterance(text);
-  speech.rate = 1;
-  speech.pitch = 1.2;
-  speech.lang = "en-IN";
-  window.speechSynthesis.speak(speech);
 }
