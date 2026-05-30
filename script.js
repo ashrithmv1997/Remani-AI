@@ -1,12 +1,12 @@
 let history = JSON.parse(localStorage.getItem("remaniHistory")) || [];
 
 /* =========================
-   SOUND STATE
+   SOUND CONTROL
 ========================= */
 let soundEnabled = true;
 
 /* =========================
-   INIT
+   INIT TOGGLE
 ========================= */
 document.addEventListener("DOMContentLoaded", () => {
   const toggle = document.getElementById("soundToggle");
@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
     toggle.addEventListener("change", (e) => {
       soundEnabled = e.target.checked;
 
-      // 🔥 instant stop voice
       if (!soundEnabled) {
         window.speechSynthesis.cancel();
       }
@@ -33,26 +32,25 @@ document.getElementById("userInput").addEventListener("keydown", (e) => {
 });
 
 /* =========================
-   TEXT NORMALIZER (MANGISH FIX)
+   CLEAN INPUT (FIXES "WIS TOYS" ISSUE)
 ========================= */
-function normalizeText(text) {
+function cleanInput(text) {
   return text
-    .replace(/machane|macha|da|di|bro|dude|sahoo/gi, "")
-    .replace(/entha|enthaa|kya|what|എന്താ/gi, "")
-    .replace(/\s+/g, " ")
+    .replace(/\s+/g, " ")   // fix broken spacing only
     .trim();
 }
 
 /* =========================
-   MAIN MESSAGE FUNCTION
+   MAIN SEND FUNCTION
 ========================= */
 async function sendMessage() {
-  const input = document.getElementById("userInput");
+  const inputEl = document.getElementById("userInput");
 
-  let text = input.value.trim();
-  if (!text) return;
+  let text = inputEl.value;
 
-  text = normalizeText(text);
+  if (!text || !text.trim()) return;
+
+  text = cleanInput(text);
 
   addMessage(text, "user");
 
@@ -61,7 +59,7 @@ async function sendMessage() {
     content: text
   });
 
-  input.value = "";
+  inputEl.value = "";
 
   setStatus("Thinking... 🤔");
 
@@ -77,7 +75,18 @@ async function sendMessage() {
       })
     });
 
-    const data = await res.json();
+    /* =========================
+       SAFE RESPONSE PARSE (IMPORTANT)
+    ========================= */
+    const raw = await res.text();
+
+    let data;
+    try {
+      data = JSON.parse(raw);
+    } catch (e) {
+      throw new Error("Invalid server response");
+    }
+
     const reply = data.reply || "No response 😵";
 
     addMessage(reply, "bot");
@@ -87,7 +96,6 @@ async function sendMessage() {
       content: reply
     });
 
-    // keep memory small
     localStorage.setItem(
       "remaniHistory",
       JSON.stringify(history.slice(-20))
@@ -120,13 +128,16 @@ function addMessage(text, type) {
 }
 
 /* =========================
-   STATUS + EMOTION
+   STATUS
 ========================= */
 function setStatus(text) {
   const el = document.getElementById("status");
   if (el) el.innerText = text;
 }
 
+/* =========================
+   EMOTION ENGINE
+========================= */
 function updateEmotion(text) {
   const t = text.toLowerCase();
 
@@ -142,7 +153,7 @@ function updateEmotion(text) {
 }
 
 /* =========================
-   VOICE SYSTEM (FIXED)
+   VOICE SYSTEM (FIXED FEMALE PRIORITY)
 ========================= */
 function speak(text) {
   if (!soundEnabled) return;
@@ -173,7 +184,7 @@ function speak(text) {
 }
 
 /* =========================
-   FORCE VOICE LOAD FIX
+   VOICE LOAD FIX
 ========================= */
 window.speechSynthesis.onvoiceschanged = () => {
   window.speechSynthesis.getVoices();
