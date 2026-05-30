@@ -1,5 +1,9 @@
-let history = JSON.parse(localStorage.getItem("remaniHistory")) || [];
+let history =
+JSON.parse(
+  localStorage.getItem("remaniHistory")
+) || [];
 
+let introLaughPlayed = false;
 /* =========================
    SOUND CONTROL
 ========================= */
@@ -49,7 +53,22 @@ async function sendMessage() {
   let text = inputEl.value;
 
   if (!text || !text.trim()) return;
+if(!introLaughPlayed){
 
+  const laugh =
+  document.getElementById("introLaugh");
+
+  if(laugh){
+
+    laugh.volume = 0.5;
+
+    laugh.play().catch(() => {});
+
+  }
+
+  introLaughPlayed = true;
+
+}
   text = cleanInput(text);
 
   addMessage(text, "user");
