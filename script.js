@@ -154,22 +154,54 @@ function setAvatar(img) {
 /* =========================
    SAFE SPEECH ENGINE (FIXED)
 ========================= */
+let soundEnabled = true;
+
+/* =========================
+   FORCE VOICE LOAD
+========================= */
+window.speechSynthesis.onvoiceschanged = () => {
+  window.speechSynthesis.getVoices();
+};
+
+/* =========================
+   FIXED SPEAK FUNCTION (FEMALE PRIORITY)
+========================= */
 function speak(text) {
   if (!soundEnabled) return;
 
-  // stop previous speech instantly
   window.speechSynthesis.cancel();
 
   const speech = new SpeechSynthesisUtterance(text);
 
   speech.lang = "en-IN";
   speech.rate = 1;
-  speech.pitch = 1.3;
+  speech.pitch = 1.5;
   speech.volume = 1;
 
-  speech.onend = () => {
-    console.log("Speech finished");
-  };
+  const voices = window.speechSynthesis.getVoices();
 
-  window.speechSynthesis.speak(speech);
+  // Strong female voice selection
+  const femaleVoice =
+    voices.find(v => v.name.toLowerCase().includes("female")) ||
+    voices.find(v => v.name.toLowerCase().includes("zira")) ||
+    voices.find(v => v.name.toLowerCase().includes("samantha")) ||
+    voices.find(v => v.lang === "en-IN") ||
+    voices[0];
+
+  if (femaleVoice) {
+    speech.voice = femaleVoice;
+  }
+
+  speechSynthesis.speak(speech);
 }
+
+/* =========================
+   FIX TOGGLE (IMPORTANT)
+========================= */
+document.getElementById("soundToggle").addEventListener("change", (e) => {
+  soundEnabled = e.target.checked;
+
+  if (!soundEnabled) {
+    window.speechSynthesis.cancel(); // instant stop
+  }
+});
