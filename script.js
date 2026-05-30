@@ -60,13 +60,25 @@ if(!introLaughPlayed){
 
   if(laugh){
 
+    setStatus("😊 Hehe...");
+
     laugh.volume = 0.5;
 
-    laugh.play().catch(() => {});
+    await new Promise((resolve) => {
+
+      laugh.onended = resolve;
+
+      laugh.play().catch(() => {
+        resolve();
+      });
+
+    });
 
   }
 
   introLaughPlayed = true;
+
+}
 
 }
   text = cleanInput(text);
