@@ -223,3 +223,17 @@ window.addEventListener("load", () => {
   }, 800);
 
 });
+function testLaugh() {
+
+  const laugh =
+    document.getElementById("introLaugh");
+
+  laugh.play()
+    .then(() => {
+      console.log("Laugh playing");
+    })
+    .catch(err => {
+      console.error("Error:", err);
+    });
+
+}
