@@ -196,22 +196,21 @@ window.speechSynthesis.onvoiceschanged = () => {
 window.addEventListener("load", () => {
 
   setTimeout(() => {
-    setStatus("✨ Remani is waking up...");
-  }, 1000);
 
-  setTimeout(() => {
-    setStatus("😏 Pucham Mode");
-  }, 4500);
+    const laugh =
+      document.getElementById("introLaugh");
 
-});
-window.addEventListener("load", () => {
+    if (laugh) {
 
-  setTimeout(() => {
-    setStatus("🥱 Remani is waking up...");
-  }, 1000);
+      laugh.currentTime = 0;
+      laugh.volume = 0.5;
 
-  setTimeout(() => {
-    setStatus("💖 Ready to chat");
-  }, 5000);
+      laugh.play().catch(err => {
+        console.log("Audio blocked:", err);
+      });
+
+    }
+
+  }, 1200);
 
 });
