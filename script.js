@@ -204,3 +204,22 @@ window.addEventListener("load", () => {
   }, 4500);
 
 });
+window.addEventListener("load", () => {
+
+  setTimeout(() => {
+
+    const laugh =
+      document.getElementById("introLaugh");
+
+    if (laugh) {
+
+      laugh.volume = 0.4;
+
+      laugh.play().catch(() => {
+        console.log("Autoplay blocked");
+      });
+    }
+
+  }, 800);
+
+});
