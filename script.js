@@ -207,33 +207,25 @@ window.addEventListener("load", () => {
 window.addEventListener("load", () => {
 
   setTimeout(() => {
+    setStatus("🥱 Remani is waking up...");
+  }, 1000);
+
+  setTimeout(() => {
 
     const laugh =
       document.getElementById("introLaugh");
 
     if (laugh) {
 
-      laugh.volume = 0.4;
+      laugh.volume = 0.5;
 
-      laugh.play().catch(() => {
-        console.log("Autoplay blocked");
-      });
+      laugh.play().catch(() => {});
     }
 
-  }, 800);
+  }, 2000);
+
+  setTimeout(() => {
+    setStatus("💖 Ready to chat");
+  }, 3500);
 
 });
-function testLaugh() {
-
-  const laugh =
-    document.getElementById("introLaugh");
-
-  laugh.play()
-    .then(() => {
-      console.log("Laugh playing");
-    })
-    .catch(err => {
-      console.error("Error:", err);
-    });
-
-}
