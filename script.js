@@ -189,3 +189,18 @@ function speak(text) {
 window.speechSynthesis.onvoiceschanged = () => {
   window.speechSynthesis.getVoices();
 };
+/* =========================================
+   REMANI STARTUP SEQUENCE
+========================================= */
+
+window.addEventListener("load", () => {
+
+  setTimeout(() => {
+    setStatus("✨ Remani is waking up...");
+  }, 1000);
+
+  setTimeout(() => {
+    setStatus("😏 Pucham Mode");
+  }, 4500);
+
+});
