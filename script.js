@@ -320,18 +320,34 @@ async function continueSend(text){
   }
 
 }
-window.addEventListener("load", () => {
+window.addEventListener("DOMContentLoaded", () => {
 
-  history.forEach(msg => {
+  const saved =
+    JSON.parse(localStorage.getItem("remaniHistory")) || [];
 
-    if(msg.role === "user"){
-      addMessage(msg.content,"user");
+  if (!saved.length) return;
+
+  // Optional: small delay so UI is ready
+  setTimeout(() => {
+
+    saved.forEach(msg => {
+
+      if (msg.role === "user") {
+        addMessage(msg.content, "user");
+      }
+
+      if (msg.role === "assistant") {
+        addMessage(msg.content, "bot");
+      }
+
+    });
+
+    // scroll to bottom after loading history
+    const chat = document.getElementById("chatBox");
+    if (chat) {
+      chat.scrollTop = chat.scrollHeight;
     }
 
-    if(msg.role === "assistant"){
-      addMessage(msg.content,"bot");
-    }
-
-  });
+  }, 300);
 
 });
