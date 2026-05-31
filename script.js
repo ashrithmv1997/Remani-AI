@@ -57,6 +57,9 @@ async function sendMessage() {
 
   if (!text) return;
 
+  inputEl.value = "";
+
+  // FIRST TIME LAUGH LOGIC
   if(!introLaughPlayed){
 
     introLaughPlayed = true;
@@ -66,8 +69,6 @@ async function sendMessage() {
 
     if(laugh){
 
-      inputEl.value = "";
-
       setStatus("😊 Hehe...");
 
       laugh.volume = 0.5;
@@ -75,19 +76,15 @@ async function sendMessage() {
       laugh.play().catch(() => {});
 
       setTimeout(() => {
-
         continueSend(text);
-
       }, 1500);
 
       return;
-
     }
+  }
 
-  inputEl.value = "";
-
+  // NORMAL FLOW
   continueSend(text);
-
 }
   text = cleanInput(text);
 
@@ -323,3 +320,18 @@ async function continueSend(text){
   }
 
 }
+window.addEventListener("load", () => {
+
+  history.forEach(msg => {
+
+    if(msg.role === "user"){
+      addMessage(msg.content,"user");
+    }
+
+    if(msg.role === "assistant"){
+      addMessage(msg.content,"bot");
+    }
+
+  });
+
+});
