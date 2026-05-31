@@ -311,17 +311,13 @@ window.addEventListener("DOMContentLoaded", () => {
   const saved =
     JSON.parse(localStorage.getItem("remaniHistory")) || [];
 
-  // ONLY load into memory (NOT UI)
+  // ONLY store in memory (not UI)
   history = saved;
 
-});
-
-    // scroll to bottom after loading history
-    const chat = document.getElementById("chatBox");
-    if (chat) {
-      chat.scrollTop = chat.scrollHeight;
-    }
-
-  , 300);
+  // OPTIONAL: scroll chat to bottom (safe even if empty)
+  const chat = document.getElementById("chatBox");
+  if (chat) {
+    chat.scrollTop = chat.scrollHeight;
+  }
 
 });
