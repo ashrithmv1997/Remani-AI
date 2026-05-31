@@ -322,6 +322,6 @@ window.addEventListener("DOMContentLoaded", () => {
       chat.scrollTop = chat.scrollHeight;
     }
 
-  }, 300);
+  , 300);
 
 });
