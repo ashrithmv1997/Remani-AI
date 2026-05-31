@@ -75,18 +75,11 @@ async function sendMessage() {
 
       laugh.play().catch(() => {});
 
-      setTimeout(() => {
-        continueSend(text);
-      }, 1500);
-
-      return;
+      await new Promise(res => setTimeout(res, 1500));
     }
   }
 
-  continueSend(text);
-}
-  text = cleanInput(text);
-
+  // ADD MESSAGE
   addMessage(text, "user");
 
   history.push({
@@ -94,35 +87,27 @@ async function sendMessage() {
     content: text
   });
 
-  inputEl.value = "";
-
   setStatus("Thinking... 🤔");
 
   try {
-    const res = await fetch("https://remaniai.ashrithmv.workers.dev", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        message: text,
-        history: history
-      })
-    });
 
-    /* =========================
-       SAFE RESPONSE PARSE (IMPORTANT)
-    ========================= */
-    const raw = await res.text();
+    const res = await fetch(
+      "https://remaniai.ashrithmv.workers.dev",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: text,
+          history: history
+        })
+      }
+    );
 
-    let data;
-    try {
-      data = JSON.parse(raw);
-    } catch (e) {
-      throw new Error("Invalid server response");
-    }
+    const data = await res.json();
 
-    const reply = data.reply || "No response 😵";
+    const reply = data.reply || "No response";
 
     addMessage(reply, "bot");
 
@@ -142,9 +127,11 @@ async function sendMessage() {
     setStatus("Online 😎");
 
   } catch (err) {
+
     console.error(err);
     addMessage("Connection error 😵", "bot");
     setStatus("Offline ❌");
+
   }
 }
 
