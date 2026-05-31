@@ -280,7 +280,7 @@ async function continueSend(text){
     localStorage.setItem(
       "remaniHistory",
       JSON.stringify(
-        history.slice(-20)
+        history.slice(-150)
       )
     );
 
