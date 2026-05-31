@@ -59,15 +59,15 @@ async function sendMessage() {
 
   inputEl.value = "";
 
-  // FIRST TIME LAUGH LOGIC
-  if(!introLaughPlayed){
+  // FIRST TIME LAUGH
+  if (!introLaughPlayed) {
 
     introLaughPlayed = true;
 
     const laugh =
     document.getElementById("introLaugh");
 
-    if(laugh){
+    if (laugh) {
 
       setStatus("😊 Hehe...");
 
@@ -83,7 +83,6 @@ async function sendMessage() {
     }
   }
 
-  // NORMAL FLOW
   continueSend(text);
 }
   text = cleanInput(text);
