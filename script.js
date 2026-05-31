@@ -48,37 +48,47 @@ function cleanInput(text) {
    MAIN SEND FUNCTION
 ========================= */
 async function sendMessage() {
-  const inputEl = document.getElementById("userInput");
 
-  let text = inputEl.value;
+  const inputEl =
+  document.getElementById("userInput");
 
-  if (!text || !text.trim()) return;
-if(!introLaughPlayed){
+  let text =
+  inputEl.value.trim();
 
-  introLaughPlayed = true;
+  if (!text) return;
 
-  const laugh =
-  document.getElementById("introLaugh");
+  if(!introLaughPlayed){
 
-  if(laugh){
+    introLaughPlayed = true;
 
-    setStatus("😊 Hehe...");
+    const laugh =
+    document.getElementById("introLaugh");
 
-    laugh.volume = 0.5;
+    if(laugh){
 
-    laugh.play().catch(() => {});
+      inputEl.value = "";
 
-    setTimeout(() => {
+      setStatus("😊 Hehe...");
 
-      continueSend(text);
+      laugh.volume = 0.5;
 
-    }, 1500);
+      laugh.play().catch(() => {});
 
-    input.value = "";
+      setTimeout(() => {
 
-    return;
+        continueSend(text);
 
+      }, 1500);
+
+      return;
+
+    }
   }
+
+  inputEl.value = "";
+
+  continueSend(text);
+
 }
   text = cleanInput(text);
 
