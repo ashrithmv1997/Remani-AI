@@ -83,7 +83,6 @@ async function sendMessage() {
       return;
 
     }
-  }
 
   inputEl.value = "";
 
